@@ -30,6 +30,15 @@ class AppKernel extends Kernel
 
 ### Usage ###
 
+Main function **findColorsInImage**
+
+Parameters:
+
+* Path to the image
+* Array of wanted colors
+* Step (optional) - distance between pixels those processed in color distribution
+* Diff (optional) - distance in [Lab coords](http://en.wikipedia.org/wiki/Lab_color_space) between different color values that matched as similar
+
 ```php
 <?php
 
@@ -55,17 +64,15 @@ class DefaultController extends Controller
                 '#4c2f27',
                 '#5c4537',
         );
-        $step = 50;// distance between pixels those count 
-            // in color distribution, optional parameter
-        $diff = 10;//distance in [Lab coords](http://en.wikipedia.org/wiki/Lab_color_space)
-            // between different color values that matched as similar, optional
+        $step = 50;
+        $diff = 10;
         $colorFinder = $this->get('evlz_delta_e.finder');
         $resultColorDistribution = $colorFinder->findColorsInImage($imagePath, $colors, $step, $diff);
         // other stuff
     }
     /**
-    other actions
-    */
+     * other actions
+     */
 }
 
 ```
