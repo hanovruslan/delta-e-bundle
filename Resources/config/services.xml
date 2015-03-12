@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="evlz_delta_e.formula.handler.CIE76.class">ColorDifference\CIE\CIE76</parameter>
+        <parameter key="evlz_delta_e.converter.handler.class">ColorDifference\Service\ColorService</parameter>
+        <parameter key="evlz_delta_e.converter.class">Evlz\DeltaEBundle\Converter\Converter</parameter>
+        <parameter key="evlz_delta_e.finder.class">Evlz\DeltaEBundle\Finder\Finder</parameter>
+    </parameters>
+    <services>
+        <service id="evlz_delta_e.formula.handler.CIE76" class="%evlz_delta_e.formula.handler.CIE76.class%" />
+        <service id="evlz_delta_e.formula.handler.default" alias="evlz_delta_e.formula.handler.CIE76" />
+        <service id="evlz_delta_e.converter.handler" class="%evlz_delta_e.converter.handler.class%">
+            <call method="setCie">
+                <argument type="service" id="evlz_delta_e.formula.handler.default" />
+            </call>
+        </service>
+        <service id="evlz_delta_e.converter" class="%evlz_delta_e.converter.class%">
+            <call method="setHandler">
+                <argument type="service" id="evlz_delta_e.converter.handler" />
+            </call>
+        </service>
+        <service id="evlz_delta_e.finder" class="%evlz_delta_e.finder.class%">
+            <call method="setConverter">
+                <argument type="service" id="evlz_delta_e.converter" />
+            </call>
+        </service>
+    </services>
+</container>
